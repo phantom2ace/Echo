@@ -185,11 +185,16 @@ export default function GoalsPageContent() {
                           {area.name}
                         </span>
                       )}
-                      {goal.target_date && (
-                        <p className="text-xs text-zinc-500 mt-2">
-                          Target: {new Date(goal.target_date).toLocaleDateString()}
-                        </p>
-                      )}
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-500 mt-2.5 font-medium">
+                        <span className="flex items-center gap-1 select-none">
+                          🚀 Start: {new Date(goal.created_at).toLocaleDateString()}
+                        </span>
+                        {goal.target_date && (
+                          <span className="flex items-center gap-1 select-none">
+                            🎯 Target: {new Date(goal.target_date).toLocaleDateString()}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <button
                       onClick={() => handleDeleteGoal(goal.id)}

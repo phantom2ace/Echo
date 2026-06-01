@@ -249,9 +249,12 @@ function GoalPageContent() {
                   {goal.goal_type.replace("_", " ")}
                 </span>
               )}
+              <span className="text-sm text-zinc-500 select-none">
+                🚀 Start: {new Date(goal.created_at).toLocaleDateString()}
+              </span>
               {goal.target_date && (
-                <span className="text-sm text-zinc-500">
-                  Due: {new Date(goal.target_date).toLocaleDateString()}
+                <span className="text-sm text-zinc-500 select-none">
+                  🎯 Target: {new Date(goal.target_date).toLocaleDateString()}
                 </span>
               )}
               {goal.health && (
