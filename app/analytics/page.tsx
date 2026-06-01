@@ -5,7 +5,7 @@ import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import FocusScore from "@/components/FocusScore";
 import AIInsights from "@/components/AIInsights";
-import { getTodayKey } from "@/lib/utils";
+import { getTodayKey, calculateFocusScore } from "@/lib/utils";
 import { getTasks, getCourses, getProjects, getDailyStats, getAreas, getGoals } from "@/lib/supabase-utils";
 import type { Task, Course, Project, DailyStats, AIInsight, Area, Goal } from "@/lib/types";
 
@@ -146,40 +146,8 @@ export default function AnalyticsPage() {
     return count;
   };
 
-  const calculateFocusScore = (): number => {
-    let score = 50;
-
-    const completedToday = dailyStats.find(s => s.date === getTodayKey())?.tasks_completed || 0;
-    score += Math.min(completedToday * 5, 25);
-
-    const last7DaysStats = dailyStats.filter(s => {
-      const date = new Date(s.date);
-      const today = new Date();
-      const diff = (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
-      return diff >= 0 && diff < 7;
-    });
-    const avgCompleted = last7DaysStats.length > 0 
-      ? last7DaysStats.reduce((sum, s) => sum + s.tasks_completed, 0) / last7DaysStats.length 
-      : 0;
-    score += Math.min(avgCompleted * 3, 20);
-
-    const avgCourseProgress = courses.length > 0 
-      ? courses.reduce((sum, c) => sum + c.progress, 0) / courses.length 
-      : 0;
-    score += Math.min(avgCourseProgress / 10, 10);
-
-    const oldTasks = tasks.filter(t => {
-      if (t.completed) return false;
-      const age = (Date.now() - new Date(t.created_at).getTime()) / (1000 * 60 * 60 * 24);
-      return age > 3;
-    });
-    score -= Math.min(oldTasks.length * 5, 30);
-
-    return Math.max(0, Math.min(100, Math.round(score)));
-  };
-
   const insights = generateInsights();
-  const focusScore = calculateFocusScore();
+  const focusScore = calculateFocusScore(tasks, courses, dailyStats);
   const taskStreak = calculateStreak("tasks");
   const studyStreak = calculateStreak("courses");
   const overallStreak = calculateStreak("all");

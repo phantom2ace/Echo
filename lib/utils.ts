@@ -22,11 +22,15 @@ export const calculateFocusScore = (
   courses: Course[],
   dailyStats: DailyStats[]
 ): number => {
-  let score = 50;
+  let score = 0;
 
+  // 1. Today's Accomplishments (max 45 points)
+  // Tasks completed today: 15 points per task, up to 45 points (3 tasks)
   const completedToday = dailyStats.find(s => s.date === getTodayKey())?.tasks_completed || 0;
-  score += Math.min(completedToday * 5, 25);
+  score += Math.min(completedToday * 15, 45);
 
+  // 2. Weekly Consistency / Habits (max 25 points)
+  // Average tasks completed over the last 7 days: 6 points per average task, up to 25 points
   const last7DaysStats = dailyStats.filter(s => {
     const date = new Date(s.date);
     const today = new Date();
@@ -36,13 +40,17 @@ export const calculateFocusScore = (
   const avgCompleted = last7DaysStats.length > 0 
     ? last7DaysStats.reduce((sum, s) => sum + s.tasks_completed, 0) / last7DaysStats.length 
     : 0;
-  score += Math.min(avgCompleted * 3, 20);
+  score += Math.min(avgCompleted * 6, 25);
 
+  // 3. Learning / Course Progress (max 30 points)
+  // Progress across active courses: scaled to max 30 points
   const avgCourseProgress = courses.length > 0 
     ? courses.reduce((sum, c) => sum + c.progress, 0) / courses.length 
     : 0;
-  score += Math.min(avgCourseProgress / 10, 10);
+  score += Math.min(avgCourseProgress * 0.3, 30);
 
+  // 4. Stale Tasks Debt Deduction (subtraction, up to -30 points)
+  // Subtract 5 points per uncompleted task older than 3 days
   const oldTasks = tasks.filter(t => {
     if (t.completed) return false;
     const age = (Date.now() - new Date(t.created_at).getTime()) / (1000 * 60 * 60 * 24);
