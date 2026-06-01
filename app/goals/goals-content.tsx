@@ -137,28 +137,34 @@ export default function GoalsPageContent() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
-            <input
-              type="text"
-              placeholder="Goal title"
-              value={newGoalTitle}
-              onChange={(e) => setNewGoalTitle(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddGoal()}
-              className="md:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-              disabled={!selectedAreaId}
-            />
-            <input
-              type="date"
-              value={newGoalTargetDate}
-              onChange={(e) => setNewGoalTargetDate(e.target.value)}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-              disabled={!selectedAreaId}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Goal Title</label>
+              <input
+                type="text"
+                placeholder="e.g. Complete Advanced React Course or Gym 3x a week"
+                value={newGoalTitle}
+                onChange={(e) => setNewGoalTitle(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAddGoal()}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 placeholder-zinc-600"
+                disabled={!selectedAreaId}
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Target Completion Date</label>
+              <input
+                type="date"
+                value={newGoalTargetDate}
+                onChange={(e) => setNewGoalTargetDate(e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 cursor-pointer"
+                disabled={!selectedAreaId}
+              />
+            </div>
           </div>
           <button
             onClick={handleAddGoal}
             disabled={!selectedAreaId || !newGoalTitle.trim()}
-            className="bg-white text-black px-5 py-3 rounded-xl font-medium mb-8 disabled:opacity-50"
+            className="bg-white text-black px-5 py-3 rounded-xl font-medium mb-8 disabled:opacity-50 cursor-pointer hover:bg-zinc-200 transition active:scale-95"
           >
             Add Goal
           </button>

@@ -311,6 +311,44 @@ export default function Dashboard() {
 
   const username = user?.user_metadata?.username || (user?.email ? user.email.split('@')[0] : 'User');
 
+  const getDynamicGreeting = (): string => {
+    const hour = new Date().getHours();
+    const cleanName = username.charAt(0).toUpperCase() + username.slice(1);
+    
+    // Determine time of day prefix
+    let timeGreeting = "Welcome";
+    if (hour >= 5 && hour < 12) {
+      timeGreeting = `Good morning, ${cleanName}`;
+    } else if (hour >= 12 && hour < 17) {
+      timeGreeting = `Good afternoon, ${cleanName}`;
+    } else if (hour >= 17 && hour < 22) {
+      timeGreeting = `Good evening, ${cleanName}`;
+    } else {
+      timeGreeting = `Late night hustle, ${cleanName}`;
+    }
+
+    // Add dynamic activity flare
+    const todayCompletions = todayStats?.tasks_completed || 0;
+    if (todayCompletions >= 3) {
+      return `${timeGreeting}! You're absolutely crushing it today 🚀`;
+    }
+    if (overallStreak >= 3) {
+      return `${timeGreeting}! Streak is ${overallStreak} days strong 🔥`;
+    }
+    if (todayCompletions > 0) {
+      return `${timeGreeting}! Great momentum today ⚡`;
+    }
+
+    // Default time-of-day greetings
+    if (hour >= 5 && hour < 12) {
+      return `${timeGreeting}! Ready to own the day? 🌅`;
+    }
+    if (hour >= 22 || hour < 5) {
+      return `${timeGreeting}! Late hours yield great twins 🦉`;
+    }
+    return `${timeGreeting}! Welcome back to Echo.`;
+  };
+
   return (
     <main className="min-h-screen bg-black text-white flex">
       <Sidebar activeTab="dashboard" />
@@ -341,9 +379,9 @@ export default function Dashboard() {
         <div className="flex-1 overflow-y-auto p-6 max-w-7xl w-full mx-auto">
           {/* Dashboard Header */}
           <header className="mb-8">
-            <h1 className="text-4xl font-extrabold tracking-tight mb-2">Dashboard</h1>
+            <h1 className="text-4xl font-extrabold tracking-tight mb-2 select-all">{getDynamicGreeting()}</h1>
             <p className="text-zinc-400 text-sm">
-              Welcome back, <span className="capitalize font-semibold text-zinc-200">{username}</span>! Here is your focus summary for today.
+              Your focus score is at <span className="text-rust font-bold">{focusScore}%</span> today. You have completed <span className="text-sage font-bold">{todayStats?.tasks_completed || 0} tasks</span>.
             </p>
           </header>
 

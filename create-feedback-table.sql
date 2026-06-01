@@ -4,6 +4,7 @@ create table if not exists feedback (
   user_id uuid references auth.users(id) on delete set null,
   type text not null,       -- e.g. 'bug', 'feature_request', 'aesthetic', 'other'
   message text not null,    -- The descriptive feedback content
+  status text default 'open' not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

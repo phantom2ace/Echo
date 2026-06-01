@@ -100,32 +100,44 @@ export default function AreasPage() {
         <div className="flex-1 overflow-y-auto p-6">
           <h1 className="text-4xl font-bold mb-8">Areas</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-8">
-            <input
-              type="text"
-              placeholder="Area name (e.g. Career, Health)"
-              value={newAreaName}
-              onChange={(e) => setNewAreaName(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddArea()}
-              className="md:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-            />
-            <input
-              type="text"
-              placeholder="Type (optional)"
-              value={newAreaType}
-              onChange={(e) => setNewAreaType(e.target.value)}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-            />
-            <input
-              type="color"
-              value={newAreaColor}
-              onChange={(e) => setNewAreaColor(e.target.value)}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-2 h-12"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Area Name</label>
+              <input
+                type="text"
+                placeholder="e.g. Career, Physical Health, side projects"
+                value={newAreaName}
+                onChange={(e) => setNewAreaName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleAddArea()}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 placeholder-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Category Type (Optional)</label>
+              <input
+                type="text"
+                placeholder="e.g. Professional, Fitness, Hobbies"
+                value={newAreaType}
+                onChange={(e) => setNewAreaType(e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 placeholder-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Theme Color Badge</label>
+              <div className="flex gap-2.5 items-center">
+                <input
+                  type="color"
+                  value={newAreaColor}
+                  onChange={(e) => setNewAreaColor(e.target.value)}
+                  className="w-12 h-11 bg-zinc-900 border border-zinc-800 rounded-xl p-1.5 cursor-pointer outline-none shrink-0"
+                />
+                <span className="text-[10px] text-zinc-500 font-mono select-none">{newAreaColor}</span>
+              </div>
+            </div>
           </div>
           <button
             onClick={handleAddArea}
-            className="bg-white text-black px-5 py-3 rounded-xl font-medium mb-8"
+            className="bg-white text-black px-5 py-3 rounded-xl font-medium mb-8 cursor-pointer hover:bg-zinc-200 transition active:scale-95"
           >
             Add Area
           </button>

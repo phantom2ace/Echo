@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import UserProfile from "./Auth/UserProfile";
 import FeedbackModal from "./FeedbackModal";
@@ -30,13 +30,27 @@ export default function Sidebar({
   ]
 }: SidebarProps) {
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      const email = user?.email || "";
+      if (email === "spadeellis20@gmail.com") {
+        setIsAdmin(true);
+      }
+    });
+  }, []);
+
+  const renderedTabs = isAdmin 
+    ? [...tabs, { id: "admin", label: "🛡️ Founder Panel", href: "/admin" }] 
+    : tabs;
 
   return (
     <>
       <aside className="w-64 bg-[#232419] border-r border-stone/10 p-4 hidden md:flex flex-col">
         <h1 className="text-2xl font-extrabold tracking-tight mb-8 text-stone">Echo AI</h1>
         <nav className="flex flex-col gap-2">
-          {tabs.map(tab => (
+          {renderedTabs.map(tab => (
             <Link
               key={tab.id}
               href={tab.href || "/"}
@@ -78,6 +92,17 @@ export default function Sidebar({
         >
           🚪
         </button>
+
+        {/* Mobile Founder Panel (Only for verified admin emails) */}
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className="flex items-center justify-center w-11 h-11 bg-rust text-earth border border-rust/20 rounded-full shadow-lg shadow-rust/30 hover:bg-rust/95 transition-all duration-150 cursor-pointer active:scale-95 text-base"
+            title="Founder Panel"
+          >
+            🛡️
+          </Link>
+        )}
 
         {/* Mobile Feedback Button */}
         <button
