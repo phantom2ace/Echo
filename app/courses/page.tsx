@@ -38,7 +38,12 @@ export default function CoursesPage() {
   const handleAddCourse = async () => {
     if (!newCourseName.trim()) return;
     try {
-      const added = await addCourse(newCourseName, newCourseExamDate || undefined, parseInt(newCourseConfidence) || 50);
+      const confidenceVal = parseInt(newCourseConfidence);
+      const added = await addCourse(
+        newCourseName, 
+        newCourseExamDate || undefined, 
+        isNaN(confidenceVal) ? 50 : confidenceVal
+      );
       setCourses([added, ...courses]);
       setNewCourseName("");
       setNewCourseExamDate("");
@@ -120,35 +125,44 @@ export default function CoursesPage() {
         <div className="flex-1 overflow-y-auto p-6">
           <h1 className="text-4xl font-bold mb-6">Courses</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
-            <input
-              type="text"
-              placeholder="Course name..."
-              value={newCourseName}
-              onChange={(e) => setNewCourseName(e.target.value)}
-              className="md:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-            />
-            <input
-              type="date"
-              value={newCourseExamDate}
-              onChange={(e) => setNewCourseExamDate(e.target.value)}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-            />
-            <select
-              value={newCourseConfidence}
-              onChange={(e) => setNewCourseConfidence(e.target.value)}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none"
-            >
-              <option value="0">0% Confidence</option>
-              <option value="25">25% Confidence</option>
-              <option value="50">50% Confidence</option>
-              <option value="75">75% Confidence</option>
-              <option value="100">100% Confidence</option>
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Course Name</label>
+              <input
+                type="text"
+                placeholder="e.g. CS101, Advanced Mathematics"
+                value={newCourseName}
+                onChange={(e) => setNewCourseName(e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 placeholder-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Exam Date</label>
+              <input
+                type="date"
+                value={newCourseExamDate}
+                onChange={(e) => setNewCourseExamDate(e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 cursor-pointer"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Confidence Level</label>
+              <select
+                value={newCourseConfidence}
+                onChange={(e) => setNewCourseConfidence(e.target.value)}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 outline-none text-zinc-100 cursor-pointer"
+              >
+                <option value="0">0% Confidence</option>
+                <option value="25">25% Confidence</option>
+                <option value="50">50% Confidence</option>
+                <option value="75">75% Confidence</option>
+                <option value="100">100% Confidence</option>
+              </select>
+            </div>
           </div>
           <button
             onClick={handleAddCourse}
-            className="bg-white text-black px-5 py-3 rounded-xl font-medium mb-8"
+            className="bg-white text-black px-5 py-3 rounded-xl font-medium mb-8 cursor-pointer hover:bg-zinc-200 transition active:scale-95"
           >
             Add Course
           </button>
