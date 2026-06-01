@@ -28,3 +28,143 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+/* Premium Mobile UI Upgrades & Overrides */
+@media (max-width: 767px) {
+  /* Sticky Glassmorphic Mobile Header */
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 {
+    background-color: #232419 !important;
+    border-bottom: 1px solid rgba(205, 203, 214, 0.08) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    transition: all 0.3s ease;
+    padding: 1rem 1.25rem !important;
+  }
+
+  /* Hamburger Menu Toggle */
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 > button {
+    color: rgba(205, 203, 214, 0.6) !important;
+    font-size: 1.625rem !important;
+    line-height: 1 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    padding: 0.25rem !important;
+    border-radius: 0.5rem !important;
+    cursor: pointer;
+  }
+  
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 > button:active {
+    color: var(--brand-rust) !important;
+    background-color: rgba(217, 104, 70, 0.08);
+    transform: scale(0.92);
+  }
+
+  /* Upgraded 2-Column Responsive Navigation Grid */
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.625rem !important;
+    margin-top: 1rem !important;
+    padding-top: 0.5rem !important;
+    animation: menuSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Animated Navigation Buttons */
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 2.75rem !important; /* 44px minimum touch target size */
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 0.75rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid rgba(205, 203, 214, 0.06) !important;
+    text-align: center !important;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Active Menu Tab (Rust Highlight) */
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a.bg-zinc-900,
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a.bg-zinc-900:hover,
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a[class*="bg-zinc-200"],
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a[class*="text-zinc-200"] {
+    background-color: var(--brand-rust) !important;
+    color: #171810 !important; /* earth contrast */
+    border-color: rgba(217, 104, 70, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(217, 104, 70, 0.3) !important;
+  }
+
+  /* Inactive Menu Tabs */
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a:not(.bg-zinc-900) {
+    background-color: rgba(205, 203, 214, 0.04) !important;
+    color: rgba(205, 203, 214, 0.65) !important;
+  }
+  
+  .md\:hidden.p-4.border-b.border-zinc-800.bg-zinc-950 nav a:not(.bg-zinc-900):active {
+    background-color: rgba(205, 203, 214, 0.08) !important;
+    color: #ffffff !important;
+    transform: scale(0.97);
+  }
+
+  /* Page Content Optimizations */
+  main > section {
+    padding: 1rem !important;
+  }
+  
+  main > section h1 {
+    font-size: 1.875rem !important; /* Slightly smaller headers on mobile to keep space clean */
+    letter-spacing: -0.03em !important;
+  }
+
+  /* Make lists and scroll-containers comfortable on touch */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Custom Hardware-Accelerated Animation */
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Elegant Custom Scrollbar Design for Dark Mode */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(23, 24, 16, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(205, 203, 214, 0.15);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 104, 70, 0.4);
+}
+
+/* Smooth Touch Animations for Buttons */
+button, 
+a.button,
+.cursor-pointer {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
